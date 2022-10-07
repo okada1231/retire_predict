@@ -127,6 +127,8 @@ def main():
             # セッションステートに退避していたデータフレームを復元
             df = copy.deepcopy(st.session_state.df)
             
+            st_display_table(df.describe())
+            
         else:
             st.subheader('訓練用データをアップロードしてください')
 
