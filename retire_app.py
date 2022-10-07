@@ -3,7 +3,6 @@
 
 from itertools import chain
 from pyexpat import features
-from turtle import dot
 import numpy as np
 import pandas as pd 
 import streamlit as st
