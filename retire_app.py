@@ -62,6 +62,15 @@ def st_display_table(df: pd.DataFrame):
     # 参考：Streamlitでdataframeを表示させる | ITブログ
     # https://kajiblo.com/streamlit-dataframe/
 
+def st_display_graph(df: pd.DataFrame, x_col : str):
+    fig, ax = plt.subplots()    # グラフの描画領域を準備
+    plt.figure(figsize=[])
+    plt.grid(True)              # 目盛線を表示する
+
+    # グラフ（ヒストグラム）の設定
+    sns.countplot(data=df, x=x_col, ax=ax)
+
+    st.pyplot(fig)              # Streamlitでグラフを表示する
 
 def main():
     """ メインモジュール
