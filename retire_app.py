@@ -1,8 +1,4 @@
-""" Streamlitによる退職予測AIシステムの開発
-"""
-
 from itertools import chain
-from pyexpat import features
 import numpy as np
 import pandas as pd 
 import streamlit as st
@@ -42,53 +38,30 @@ japanize_matplotlib.japanize()  # 日本語フォントの設定
 
 
 def st_display_table(df: pd.DataFrame):
-    """
-    Streamlitでデータフレームを表示する関数
-    
-    Parameters
-    ----------
-    df : pd.DataFrame
-        対象のデータフレーム
-
-    Returns
-    -------
-    なし
-    """
 
     # データフレームを表示
     st.subheader('データの確認')
-    st.table(df)
+    st.table(df_df)
 
-    # 参考：Streamlitでdataframeを表示させる | ITブログ
+    # Streamlitでdataframeを表示させる | ITブログ
     # https://kajiblo.com/streamlit-dataframe/
 
-def st_display_graph(df: pd.DataFrame, x_col : str):
-    fig, ax = plt.subplots()    # グラフの描画領域を準備
-    plt.figure(figsize=[])
-    plt.grid(True)              # 目盛線を表示する
-
-    # グラフ（ヒストグラム）の設定
-    sns.countplot(data=df, x=x_col, ax=ax)
-
-    st.pyplot(fig)              # Streamlitでグラフを表示する
 
 def main():
     """ メインモジュール
     """
 
     # stのタイトル表示
-    st.title("退職予測AI\n（Machine Learning)")
+    st.title("退職予測AI\n（Maschine Learning)")
+
+    # ファイルのアップローダー
+    uploaded_file = st.sidebar.file_uploader("訓練用データのアップロード", type='csv') 
 
     # サイドメニューの設定
     activities = ["データ確認", "要約統計量", "グラフ表示", "学習と検証", "About"]
     choice = st.sidebar.selectbox("Select Activity", activities)
 
     if choice == 'データ確認':
-
-        # ファイルのアップローダー
-        uploaded_file = st.sidebar.file_uploader("訓練用データのアップロード", type='csv') 
-
-        #df = pd.read_csv(r"C:~~\ks-projects-201801.csv")
         # アップロードの有無を確認
         if uploaded_file is not None:
 
@@ -106,10 +79,8 @@ def main():
                 # データフレームの読み込み
                 df = pd.read_csv(uploaded_file, encoding=enc) 
 
-                # データフレームをセッションステートに退避（名称:df）
-                st.session_state.df = copy.deepcopy(df)
-
-                # スライダーの表示（表示件数）
+                # ary_cnt = ["10", "50", "100", ]
+                # cnt = st.sidebar.selectbox("Select Max mm", ary_cnt)
                 cnt = st.sidebar.slider('表示する件数', 1, len(df), 10)
 
                 # テーブルの表示
@@ -117,45 +88,6 @@ def main():
 
         else:
             st.subheader('訓練用データをアップロードしてください')
-
-
-    if choice == '要約統計量':
-
-        # セッションステートにデータフレームがあるかを確認
-        if 'df' in st.session_state:
-
-            # セッションステートに退避していたデータフレームを復元
-            df = copy.deepcopy(st.session_state.df)
-            
-            st_display_table(df.describe())
-            
-        else:
-            st.subheader('訓練用データをアップロードしてください')
-
-
-    if choice == 'グラフ表示':
-
-        # セッションステートにデータフレームがあるかを確認
-        if 'df' in st.session_state:
-
-            # セッションステートに退避していたデータフレームを復元
-            df = copy.deepcopy(st.session_state.df)
-
-        else:
-            st.subheader('訓練用データをアップロードしてください')
-
-
-    if choice == '学習と検証':
-
-        if 'df' in st.session_state:
-
-            # セッションステートに退避していたデータフレームを復元
-            df = copy.deepcopy(st.session_state.df)
-
-        else:
-            st.subheader('訓練用データをアップロードしてください')
-    
-        
 
 if __name__ == "__main__":
     main()
