@@ -41,7 +41,7 @@ def st_display_table(df: pd.DataFrame):
 
     # データフレームを表示
     st.subheader('データの確認')
-    st.table(df_df)
+    st.table(df)
 
     # Streamlitでdataframeを表示させる | ITブログ
     # https://kajiblo.com/streamlit-dataframe/
